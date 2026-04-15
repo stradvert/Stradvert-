@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface text-gray-100 antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-surface-border rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-gray-600;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-surface-raised border border-surface-border rounded-xl p-5 transition-all duration-200;
+  }
+
+  .card-hover {
+    @apply card hover:border-brand-500/30 hover:bg-surface-hover hover:shadow-lg hover:shadow-brand-500/5;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-high {
+    @apply badge bg-red-500/15 text-red-400 border border-red-500/20;
+  }
+
+  .badge-medium {
+    @apply badge bg-amber-500/15 text-amber-400 border border-amber-500/20;
+  }
+
+  .badge-low {
+    @apply badge bg-emerald-500/15 text-emerald-400 border border-emerald-500/20;
+  }
+
+  .badge-twitter {
+    @apply badge bg-sky-500/15 text-sky-400 border border-sky-500/20;
+  }
+
+  .badge-reddit {
+    @apply badge bg-orange-500/15 text-orange-400 border border-orange-500/20;
+  }
+
+  .badge-linkedin {
+    @apply badge bg-blue-500/15 text-blue-400 border border-blue-500/20;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-lg font-medium text-sm transition-all duration-150 active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 bg-surface-overlay hover:bg-surface-hover text-gray-300 border border-surface-border rounded-lg font-medium text-sm transition-all duration-150 active:scale-[0.98];
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-3 py-1.5 hover:bg-surface-overlay text-gray-400 hover:text-gray-200 rounded-lg text-sm transition-all duration-150;
+  }
+
+  .input {
+    @apply w-full bg-surface-overlay border border-surface-border rounded-lg px-3.5 py-2.5 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500/40 focus:border-brand-500/50 transition-all duration-150;
+  }
+
+  .select {
+    @apply input appearance-none cursor-pointer pr-8;
+  }
+
+  .intent-bar {
+    @apply h-1.5 rounded-full bg-surface-overlay overflow-hidden;
+  }
+
+  .intent-fill {
+    @apply h-full rounded-full transition-all duration-500;
+  }
+
+  .glow-dot {
+    @apply w-2 h-2 rounded-full animate-pulse-slow;
+  }
+
+  .tab-active {
+    @apply text-brand-400 border-b-2 border-brand-400;
+  }
+
+  .tab-inactive {
+    @apply text-gray-500 hover:text-gray-300 border-b-2 border-transparent;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.08) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
