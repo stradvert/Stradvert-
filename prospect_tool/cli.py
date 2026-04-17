@@ -67,6 +67,7 @@ def run_for_brand(brand_name: str, website: str, output_dir: str = None):
     print("  OUTPUT FILES:")
     print(f"  TXT:  {paths['txt']}")
     print(f"  DOCX: {paths['docx']}")
+    print(f"  HTML: {paths['html']}")
     print("-" * 58)
     print()
     print("  Your VA can open either file, copy, and send.")
