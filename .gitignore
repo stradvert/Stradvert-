@@ -34,3 +34,6 @@ Thumbs.db
 
 # Hyperframes per-composition artifacts
 compositions/**/.hyperframes/
+compositions/**/renders/
+compositions/**/snapshots/
+compositions/**/preview/
