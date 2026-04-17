@@ -28,3 +28,9 @@ output/*.docx
 # OS
 .DS_Store
 Thumbs.db
+
+# Vendored clones (local working copies, not vendored source)
+/hyperframes/
+
+# Hyperframes per-composition artifacts
+compositions/**/.hyperframes/
