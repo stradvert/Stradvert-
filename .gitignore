@@ -33,3 +33,4 @@ Thumbs.db
 video/**/renders/
 video/**/node_modules/
 node_modules/
+video_out/
