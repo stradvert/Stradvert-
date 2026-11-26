@@ -1,6 +1,27 @@
 {
   "version": 2,
   "skills": {
+    "ad-creative": {
+      "source": "coreyhaines31/marketingskills",
+      "commit": "8fd2fcade2fd6629026e9dfe6d133b55b36968b9",
+      "sourceType": "github",
+      "skillPath": "skills/ad-creative/SKILL.md",
+      "computedHash": "21f151626df70971bfe3c768f0d180eb063e877e00c66bd740e02cbc24324828"
+    },
+    "content-strategy": {
+      "source": "coreyhaines31/marketingskills",
+      "commit": "8fd2fcade2fd6629026e9dfe6d133b55b36968b9",
+      "sourceType": "github",
+      "skillPath": "skills/content-strategy/SKILL.md",
+      "computedHash": "94a23ddb279c20ea8c7c7751eb07f548c855a5287aed8983f31e63b49e7dbf1a"
+    },
+    "copywriting": {
+      "source": "coreyhaines31/marketingskills",
+      "commit": "8fd2fcade2fd6629026e9dfe6d133b55b36968b9",
+      "sourceType": "github",
+      "skillPath": "skills/copywriting/SKILL.md",
+      "computedHash": "6b86be15d7e8397c27d339fbcbf72718854f96f096ca617889e45b5b8174c393"
+    },
     "figma": {
       "source": "heygen-com/hyperframes",
       "commit": "7c217d9fdf3e32c628953f7325ddd90e0ff94392",
@@ -28,6 +49,13 @@
       "sourceType": "github",
       "skillPath": "skills/hyperframes-registry/SKILL.md",
       "computedHash": "6867a66011b2cda40600cc9bff07e89197b756e6aa77861d884285ba7a869361"
+    },
+    "marketing-psychology": {
+      "source": "coreyhaines31/marketingskills",
+      "commit": "8fd2fcade2fd6629026e9dfe6d133b55b36968b9",
+      "sourceType": "github",
+      "skillPath": "skills/marketing-psychology/SKILL.md",
+      "computedHash": "9542dca644cf683b8d171b962054679a51b2e740bfad0692c2edcfd85d129c9c"
     },
     "media-use": {
       "source": "heygen-com/hyperframes",
@@ -154,6 +182,13 @@
       "sourceType": "github",
       "skillPath": "skills/slideshow/SKILL.md",
       "computedHash": "a7d87591e3b0ff9eaba32df4ca4dc6d46fbb8824751a37f5cede2cda20d434e5"
+    },
+    "social": {
+      "source": "coreyhaines31/marketingskills",
+      "commit": "8fd2fcade2fd6629026e9dfe6d133b55b36968b9",
+      "sourceType": "github",
+      "skillPath": "skills/social/SKILL.md",
+      "computedHash": "a8a42ff595b0fa8e2b3be3a96a88fe0a0fffc7c95076c7d295a0d09f794406ee"
     },
     "style-sampling": {
       "source": "heygen-com/hyperframes",
