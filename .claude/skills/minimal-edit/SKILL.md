@@ -38,8 +38,11 @@ Worked example and scripts: `video/day_in_the_life/` (its README has the shape a
 - Open on the strangest picture in the footage with the context pill already on screen in frame one. The bracketed second line lands half a second later. One clear spoken line in the first two seconds.
 - Then rewind and tell it in order. Ryan's own lines carry the story as captions, pills fill the gaps, one idea per shot.
 - Stop the music for the punchline. Bring it back on the next cut.
-- Phone screen recordings and pages he showed on a call go in as tall cards over the dimmed footage. A workflow reads best as a three-row tick list.
-- Do the privacy pass on every screen before it goes in (see `CLAUDE.md`).
+- A phone screen recording plays next to the shot of him on his phone (split screen), not over other footage. Ryan asked for this on 27 Nov 2026 ("the journey coming up while doing this"). A page he showed on a call goes in as a tall card over the dimmed footage. A workflow reads best as a three-row tick list.
+- Sound: he had the music taken out of the first day in the life (27 Nov 2026). Claude's reading: build these with voice, natural sound and light effects (`mix_nomusic.sh`), and ask before adding a score.
+- Do not lay one of his lines over a shot where he is on camera but not saying it. He had that shot removed and asked for walk b-roll instead. Voiceover lines go over point-of-view or scenery shots.
+- On arrival somewhere, use the best shot of the place, even if it was filmed later in the day.
+- Do the privacy pass on every screen before it goes in (see `CLAUDE.md`). Where he is staying counts as his address.
 - If the brief and the footage disagree, cut what the footage shows and tell him.
 
 ## Rules

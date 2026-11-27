@@ -48,7 +48,12 @@ brief and what he says on camera disagree, the edit says what the footage shows,
 
 Privacy pass before any screen goes in an edit: screen recordings and laptop shots can show a home address, recent
 searches, an inbox or a prospect's name. Trim or blur them and say so in the reply. A prospect's brand stays off
-screen unless it is on the proof page.
+screen unless it is on the proof page. Ryan said "dont show my address" about a Maps recording (27 Nov 2026):
+that covers where he is staying too, so the start of a route and the name of the villa are blurred.
+
+Music: on the first day in the life (27 Nov 2026) Ryan asked for the music to be taken out. That is one video so
+far. Claude's reading: day in the life and vlog style edits go out with voice, natural sound and light effects,
+and it is worth asking before adding a score to any edit.
 
 One exception so far to rule 4. On 27 Nov 2026 Ryan asked for a "I could fake this view" moment to swap the
 background to somewhere that looks really bad, then put it back. No such footage exists, so Claude generated
@@ -63,7 +68,7 @@ Claude's call for that one gag. Do not use generated imagery anywhere else witho
 - If the location is the point of the video, show it off: sharp, bright, as little text over it as possible.
 - Reply short. Say which Drive file each b-roll shot came from and what could not be verified.
 - Always true and worth saying: audio is checked by measurement and transcription, not by ear, so he should
-  listen once before posting. The music is synthesised in code. The logo in the templates is an SVG redraw of
+  listen once before posting. Any music is synthesised in code. The logo in the templates is an SVG redraw of
   his logo, swap in the real file if he uploads it.
 
 ## Working practice

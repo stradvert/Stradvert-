@@ -37,7 +37,8 @@ Everything on screen comes from `data.json`. No footage, frames, transcripts or 
 | `shrinkTop` | vertical offset of the footage inside the shrunken card (default `-450`) |
 | `capPlate` | `true` dark plate behind captions (default), `false` bare text with shadow |
 | `link` | end card link (default `stradvert.org`) |
-| `cards` | tall cards over the dimmed footage (a phone screen recording, a rendered page): `{s, e, dir, n, x, y, w, h, r, bezel}` |
+| `cards` | tall cards (a phone screen recording, a rendered page): `{s, e, dir, n, x, y, w, h, r, bezel}`. By default the footage dims and blurs behind the card. `dim: false` keeps it sharp, `hard: true` ends the card on the cut, `pop` and `origin` grow it out of a point, `lead` delays its first frame |
+| `layouts` | split screen: the footage moves into its own rounded card `{s, e, hard, x, y, w, h, r, imw, imx, imy}` (`imw` is the width the footage is drawn at inside the card, `imx` and `imy` its offset) |
 | `lists` | tick lists: `{s, e, y, dim, rows: [{text, at}]}`, each row ticks at its `at` time |
 | `capEnd` | optional end time per caption group (same order as `caps`), so a caption clears before a cut |
 | `cutFx` | per-shot push-in: `{"<cut index>": {"zoom": 0.1, "focus": [50, 47]}}` |

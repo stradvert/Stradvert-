@@ -1,6 +1,7 @@
 # Score + sound design for a story-led minimal edit. Everything is synthesised (no samples, no licences).
 # The music follows the story: tension, a light groove, hard stops for the punchlines. Reads data.json (segment times), writes music.wav and sfx.wav.
-import numpy as np,json,wave
+import numpy as np,json,wave,os
+MUSIC=os.environ.get('MUSIC','1')!='0'      # MUSIC=0: no score and nothing tonal, only the effects track
 from scipy.signal import butter,sosfilt,sosfilt_zi,fftconvolve
 sr=48000;D=json.load(open('data.json'));SG=D['segs'];TOTAL=D['total']/30.0;VD=D['vd'];N=int(sr*(TOTAL+0.5))
 rng=np.random.default_rng(5)
@@ -107,36 +108,38 @@ def place(buf,sec,t0,t1,fin=0.005,fout=0.05,lp=None):
         fc=np.geomspace(lp[0],lp[1],m);fc=np.concatenate([fc,np.full(len(x)-m,lp[1])]);x=np.stack([tvlp(x[:,0],fc),tvlp(x[:,1],fc)],1)
     add(buf,x*g[:,None],t0)
 music=np.zeros((N,2));sfx=np.zeros((N,2))
-# ---------------- A: hook. Low tension bed, then a quick run ----------------
-def drone(t0,t1,notes=(38,45,50,53),lo=380,hi=900,g=1.0):
-    n=int((t1-t0)*sr);t=np.arange(n)/sr;y=np.zeros((n,2))
-    for m in notes:
-        for ch in(0,1):
-            for dt in rng.uniform(-12,12,3):y[:,ch]+=2*((note(m)*2**(dt/1200)*t+rng.uniform())%1)-1
-    fc=np.linspace(lo,hi,n);y=np.stack([tvlp(y[:,0],fc,4),tvlp(y[:,1],fc,4)],1)
-    e=np.clip(t/0.25,0,1)*np.clip((t1-t0-t)/0.12,0,1)*(1+0.12*np.sin(2*np.pi*5.5*t));add(music,y*e[:,None],t0,0.035*g)
-drone(0.0,T('r1',-0.13),g=1.6)
-for i,tt in enumerate(np.arange(T('h2'),T('r1',-0.16),0.094)):add(music,st(shaker(0.5+0.03*i,70),0.3 if i%2 else -0.3),tt,0.42)
-for tt in np.arange(T('h2'),T('r1',-0.2),0.376):add(music,st(kick(0.8)),tt,0.6)
-# ---------------- B: the plan. Easy groove ----------------
-place(music,groove(T('r1'),T('b1'),kind=1,bar0=0,level=1.0),T('r1'),T('b1'),fout=0.02)
-# ---------------- C: heard shouting (filter closes), buffalo (held breath), run ----------------
-place(music,groove(T('b1'),T('b2'),kind=1,bar0=3,drums=False,level=0.9),T('b1'),T('b2'),fout=0.25,lp=(2600,260))
-drone(T('b2'),T('b3'),notes=(38,39,45),lo=300,hi=520,g=0.9)
-for i,tt in enumerate(np.arange(T('b3'),T('b6',-0.05),0.094)):add(music,st(shaker(0.5+0.02*i,70),0.3 if i%2 else -0.3),tt,0.42)
-for tt in np.arange(T('b3'),T('b6',-0.1),0.376):add(music,st(kick(0.8)),tt,0.6)
-# D: "I'm gonna have to walk back now and get a bike" plays dry
-# ---------------- E: plan B, the bike. Busier groove, thins out for the reveal, stops for the punchline ----------------
-place(music,groove(T('k1'),T('k3'),kind=2,bar0=0,level=1.0),T('k1'),T('k3'),fout=0.03)
-place(music,groove(T('k3'),T('k5'),kind=2,bar0=1,drums=False,level=0.62),T('k3'),T('k5'),fout=0.12,lp=(1700,700))
-# ---------------- F: the ride, then the work day (lead joins) until "Never again" ----------------
-place(music,groove(T('d1'),T('w2a'),kind=2,bar0=2,level=1.0),T('d1'),T('w2a'),fout=0.03)
-place(music,groove(T('w2a'),T('z1'),kind=1,bar0=0,lead=True,level=0.95),T('w2a'),T('z1'),fout=0.07)
-# ---------------- G: end card. One warm chord ----------------
-for i,m in enumerate((48,55,62,64,67)):add(music,st(ep(m,2.0,0.6),-0.3+0.15*i),VD+0.02+i*0.035,0.5)
-add(music,st(bassn(36,1.6,0.8)),VD+0.02,0.5)
-tail=reverb(music[int(VD*sr):int((VD+0.6)*sr)],2.2,seed=11);add(music,tail,VD,0.25)
-music=bq(music,'lp',9500)
+if MUSIC:
+    # ---------------- A: hook. Low tension bed, then a quick run ----------------
+    def drone(t0,t1,notes=(38,45,50,53),lo=380,hi=900,g=1.0):
+        n=int((t1-t0)*sr);t=np.arange(n)/sr;y=np.zeros((n,2))
+        for m in notes:
+            for ch in(0,1):
+                for dt in rng.uniform(-12,12,3):y[:,ch]+=2*((note(m)*2**(dt/1200)*t+rng.uniform())%1)-1
+        fc=np.linspace(lo,hi,n);y=np.stack([tvlp(y[:,0],fc,4),tvlp(y[:,1],fc,4)],1)
+        e=np.clip(t/0.25,0,1)*np.clip((t1-t0-t)/0.12,0,1)*(1+0.12*np.sin(2*np.pi*5.5*t));add(music,y*e[:,None],t0,0.035*g)
+    drone(0.0,T('r1',-0.13),g=1.6)
+    for i,tt in enumerate(np.arange(T('h2'),T('r1',-0.16),0.094)):add(music,st(shaker(0.5+0.03*i,70),0.3 if i%2 else -0.3),tt,0.42)
+    for tt in np.arange(T('h2'),T('r1',-0.2),0.376):add(music,st(kick(0.8)),tt,0.6)
+    # ---------------- B: the plan. Easy groove ----------------
+    place(music,groove(T('r1'),T('b1'),kind=1,bar0=0,level=1.0),T('r1'),T('b1'),fout=0.02)
+    # ---------------- C: heard shouting (filter closes), buffalo (held breath), run ----------------
+    place(music,groove(T('b1'),T('b2'),kind=1,bar0=3,drums=False,level=0.9),T('b1'),T('b2'),fout=0.25,lp=(2600,260))
+    drone(T('b2'),T('b3'),notes=(38,39,45),lo=300,hi=520,g=0.9)
+    for i,tt in enumerate(np.arange(T('b3'),T('b6',-0.05),0.094)):add(music,st(shaker(0.5+0.02*i,70),0.3 if i%2 else -0.3),tt,0.42)
+    for tt in np.arange(T('b3'),T('b6',-0.1),0.376):add(music,st(kick(0.8)),tt,0.6)
+    # D: "I'm gonna have to walk back now and get a bike" plays dry
+    # ---------------- E: plan B, the bike. Busier groove, thins out for the reveal, stops for the punchline ----------------
+    place(music,groove(T('k1'),T('k3'),kind=2,bar0=0,level=1.0),T('k1'),T('k3'),fout=0.03)
+    place(music,groove(T('k3'),T('k5'),kind=2,bar0=1,drums=False,level=0.62),T('k3'),T('k5'),fout=0.12,lp=(1700,700))
+    # ---------------- F: the ride, then the work day (lead joins) until "Never again" ----------------
+    place(music,groove(T('d1'),T('w2a'),kind=2,bar0=2,level=1.0),T('d1'),T('w2a'),fout=0.03)
+    place(music,groove(T('w2a'),T('z1'),kind=1,bar0=0,lead=True,level=0.95),T('w2a'),T('z1'),fout=0.07)
+    # ---------------- G: end card. One warm chord ----------------
+    for i,m in enumerate((48,55,62,64,67)):add(music,st(ep(m,2.0,0.6),-0.3+0.15*i),VD+0.02+i*0.035,0.5)
+    add(music,st(bassn(36,1.6,0.8)),VD+0.02,0.5)
+    tail=reverb(music[int(VD*sr):int((VD+0.6)*sr)],2.2,seed=11);add(music,tail,VD,0.25)
+    music=bq(music,'lp',9500)
+
 # ---------------- sound effects ----------------
 def boom(t,g=1.0,f0=58,tail=1.1,p=0.0):
     n=int(tail*sr);x=np.arange(n)/sr;f=f0*np.exp(-x*2.6)+30;y=np.sin(2*np.pi*np.cumsum(f)/sr)*np.exp(-x*3.6)
@@ -160,13 +163,17 @@ def bell(t,notes=(79,84),g=1.0):
     for i,m in enumerate(notes):
         n=int(1.4*sr);x=np.arange(n)/sr;f=note(m);y=(np.sin(2*np.pi*f*x)+0.3*np.sin(2*np.pi*2.76*f*x)*np.exp(-x*6))*np.exp(-x*4.4)*np.clip(x/0.004,0,1)
         s=st(y,-0.3+0.6*i);add(sfx,s,t+i*0.085,g*0.07);add(sfx,reverb(s,1.6,lp=6500,seed=51+i),t+i*0.085,g*0.025)
-P=D['pills'];C=D['cards'];L=D['lists'][0]
-boom(0.0,0.75);tick(P[0]['wipe'],0.9,p=-0.2);pop(P[1]['s'],0.5,640)
+P=D['pills'];C=D['cards'];L=D['lists'][0];Q=1.0 if MUSIC else 0.7
+if not MUSIC:
+    def bell(*a,**k):pass                     # bells are tonal: out with the music
+boom(0.0,0.75*Q);tick(P[0]['wipe'],0.9,p=-0.2);pop(P[1]['s'],0.5,640)
 whoosh(T('h2')+0.02,0.3,0.9,p0=0.6,p1=-0.6);rewind(T('r1'),0.3,1.0)
-tick(P[2]['s']+0.05,0.6);whoosh(C[0]['s']+0.12,0.34,0.8)
-for i in range(6):key(C[0]['s']+0.1+i*0.085,0.8)
-tick(P[2]['wipe'],1.0,p=0.2);swish(C[0]['e']-0.15,0.28,0.6)
-boom(T('b2'),1.0,54,1.3)
+tick(P[2]['s']+0.05,0.6);whoosh(C[0]['s']+0.14,0.34,0.8)
+M0=D.get('marks',{}).get('map0',C[0]['s']+0.1)
+for i,dt in enumerate((0.0,0.17,0.31,0.5,0.66,0.8,0.98,1.13,1.27)):key(M0+0.06+dt,0.8)          # typing the place name
+pop(M0+1.42,0.5,480,0.4);tick(P[2]['wipe'],1.0,p=0.2)
+if not C[0].get('hard'):swish(C[0]['e']-0.15,0.28,0.6)
+boom(T('b2'),1.0*Q,54,1.3)
 whoosh(T('b3')+0.02,0.28,0.8)
 pop(T('k1'),0.7,330);whoosh(T('k1')+0.03,0.3,0.7);tick(P[3]['wipe'],0.9)
 whoosh(T('d1')+0.03,0.34,0.9,p0=-0.7,p1=0.7)
