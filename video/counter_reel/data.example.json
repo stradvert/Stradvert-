@@ -1,0 +1,21 @@
+{
+ "nf": 300, "total": 300,
+ "shots": [
+  {"k": "hook", "t0": 0.0, "t1": 3.0, "f0": 1, "z0": 1.1, "z1": 1.15, "fx": 0.5, "fy": 0.4, "sx": 0.5, "sy": 0.42, "freeze": false, "pop": false, "grey": false, "bright": false},
+  {"k": "ask1", "t0": 3.0, "t1": 6.0, "f0": 91, "z0": 1.3, "z1": 1.34, "fx": 0.55, "fy": 0.35, "sx": 0.5, "sy": 0.42, "freeze": false, "pop": true, "grey": false, "bright": false},
+  {"k": "yes", "t0": 6.0, "t1": 10.0, "f0": 181, "z0": 1.25, "z1": 1.3, "fx": 0.45, "fy": 0.3, "sx": 0.5, "sy": 0.4, "freeze": false, "pop": false, "grey": false, "bright": false}
+ ],
+ "caps": [[["Never", 3.4], ["heard", 3.7], ["of", 3.9], ["it.", 4.05]], [["Of", 6.5], ["course", 6.6], ["I", 6.8], ["do.", 6.9]]],
+ "capEnd": [5.9, 7.6], "who": ["G", "G"],
+ "xs": [4.1], "q": [[6.0, 6.95, 1, 6.5]], "check": 6.95, "checkEnd": 7.9, "zeroText": "", "winText": "FINALLY",
+ "stripOn": [3.0, 8.2],
+ "pills": [
+  {"text": "How many people until<br>someone remembers **it**?", "s": -0.5, "e": 9.0, "wipe": 0.35},
+  {"text": "(the bracketed second line)", "s": 0.45, "e": 3.0, "sub": true},
+  {"text": "What would **you** say?", "s": 8.6, "e": 99, "wipe": 8.9, "cta": true}
+ ],
+ "stickers": [{"e": "🤔", "s": 3.4, "d": 0.8, "x": 835, "y": 1040, "r": -8}],
+ "whips": [3.0],
+ "snd": {"theme": [3.0, 5.8], "roll": [5.85, 6.9], "swell": 6.0, "groove": [8.0, 9.4], "button": 9.45},
+ "link": "stradvert.org"
+}

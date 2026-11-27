@@ -24,7 +24,8 @@ Templates, each with a README:
 - `video/day_in_the_life/` : story edit with no voiceover (day in the life), built on the minimal template.
 - `video/square_trailer_edit/` : trailer style as a square inside a 1080x1920 canvas (daylight footage).
 - `video/sales_call_montage/` : trailer style at 1920x1080 (dark call footage).
-- `video/raw_review/` : tools for long raws (transcript with host and guest labels, b-roll finder, selects reel).
+- `video/raw_review/` : tools for long raws (transcript with host and guest labels, b-roll finder, selects reel, clean-cut tools: loudness strip, word aligner, cut check).
+- `video/counter_reel/` : counter edit (a run of no's with X tiles, then the yes), halfway between minimal and trailer.
 
 ## Video rules (every edit)
 
@@ -52,7 +53,9 @@ Those are never used as genuine, and any line on camera about faking stays out, 
 street ads are real. The honest answer a person gave first can still be used. Point these out to Ryan in the reply.
 
 Counter edits (Ryan's idea, 27 Nov 2026: "a bunch of no's and a counter til we get someone who does"): count only
-asks with an answer on camera, keep them in the real order, and the number on screen matches the asks shown.
+asks with an answer on camera, keep them in the real order, and the number on screen matches the asks shown. Template
+and the shape that worked: `video/counter_reel/`. On 27 Nov 2026 he asked for this one "somewhere halfway between"
+the two saved styles, and for every cut to be clean.
 
 Privacy pass before any screen goes in an edit: screen recordings and laptop shots can show a home address, recent
 searches, an inbox or a prospect's name. Trim or blur them and say so in the reply. A prospect's brand stays off
