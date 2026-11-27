@@ -33,7 +33,7 @@ part ends on its cliffhanger: a question or a line cut before the answer, then a
 
 - `badge` `{text, s, e}`: the "PART 1" tag above the headline.
 - `card` `{s, title, sub}`: dims the last frame (hold it with a freeze in the edit list) and slams the next part's title.
-  The sub line is a question or a tease, never a claim ("(who's Julian?)", "(his answer)").
+  The sub line is a question or a tease, never a claim ("(who is that?)", "(his answer)").
 - `noTiles: true` with `xScale` and `xHold`: quick X stamps for a montage, no tile row and no counter number.
 - A recap montage keeps the real order: use the no's that happened before the moment it leads into.
 - `snd_cues.py data.json music.wav sfx.wav` builds the sound from a cue list (`cues` in data.json) instead of the
