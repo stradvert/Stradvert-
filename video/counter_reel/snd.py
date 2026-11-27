@@ -201,7 +201,7 @@ for q in range(nst):
     if bar%2==1 or bar>=4:
         for (bt,m) in LEAD[bar%4]:
             if abs(bt-beat)<1e-6:add(gr,st(whistle(m,B2*0.8,0.8),-0.25),tb,0.55)
-TS=0.32;L2=int((G1+TS-G0)*sr);seg=gr[int(G0*sr):int(G0*sr)+L2].copy()
+TS=A.get('tapestop',0.32);L2=int((G1+TS-G0)*sr);seg=gr[int(G0*sr):int(G0*sr)+L2].copy()
 ts0=int((G1-G0)*sr);m_=L2-ts0;u=np.arange(m_)/sr;pos=ts0+(u-u**2/(2*TS))*sr;pos=np.clip(pos,0,L2-2);ii=pos.astype(int);fr=(pos-ii)[:,None]
 seg[ts0:]=seg[ii]*(1-fr)+seg[ii+1]*fr                                  # tape stop: the groove slows to a halt
 g2=np.ones(L2);g2[:int(0.01*sr)]=np.linspace(0,1,int(0.01*sr));g2[ts0:]*=np.linspace(1,0,m_)**0.7

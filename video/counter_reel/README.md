@@ -6,7 +6,7 @@ with a buzzer, a freeze, confetti, emoji stickers and a synthesised comedy score
 
 No footage, frames, transcripts, edit lists or `data.json` live in this repo.
 
-## Shape that worked (first one: 45 seconds)
+## Shape that worked (second cut: 39 seconds)
 
 1. **Hook, about 3 s.** The funniest wrong answer, not the host to camera. The headline pill is on screen in frame one
    (`s` below 0), the bracketed second line lands half a second later. Jump cuts with a punch-in.
@@ -16,8 +16,14 @@ No footage, frames, transcripts, edit lists or `data.json` live in this repo.
    black and white with a tally line ("0 for 7") and a sad trombone.
 4. **Payoff.** A pill sets it up ("Then person #8 showed up"), a choir swells under them, and the yes gets a check, a
    win word, confetti and a flash over a freeze that zooms in.
-5. **The yeses.** The best answers from people who did, over an upbeat groove. The groove tape-stops before the last
-   punchline so it plays dry, and the end hit comes back with the comment question pill and the link.
+5. **The yeses.** The best answers from people who did, over an upbeat groove, with "(wait for the last one)" under
+   the headline. The groove tape-stops before the last punchline so it plays dry, and the end hit comes back with the
+   comment question pill and the link.
+
+Pacing that Ryan asked for on the second cut (27 Nov 2026): "every line adds anticipation", "not spending too long on
+one person unless necessary". What that meant in practice: drop any line that does not move towards the yes (a setup
+like "just guess", a side joke after a no), split a question from its answer and punch in on the answer, cut long
+thinking pauses down to about half a second, and reframe inside a long answer on a key word.
 
 ## Counter rules (see the repo `CLAUDE.md`)
 
@@ -46,7 +52,7 @@ No footage, frames, transcripts, edit lists or `data.json` live in this repo.
 | field | meaning |
 | --- | --- |
 | `nf`, `total` | frames in `frames/` (no end card: the video loops) |
-| `shots` | `{k, t0, t1, f0, z0, z1, fx, fy, sx, sy, freeze, pop, grey, bright}`: zoom from `z0` to `z1`, the point `fx, fy` (fraction of the source frame) sits at `sx, sy` on screen. `pop` punches in on the cut, `grey` is the black and white freeze, `bright` flashes the payoff freeze |
+| `shots` | `{k, t0, t1, f0, z0, z1, fx, fy, sx, sy, freeze, pop, grey, bright, steps}`: zoom from `z0` to `z1`, the point `fx, fy` (fraction of the source frame) sits at `sx, sy` on screen. `pop` punches in on the cut, `grey` is the black and white freeze, `bright` flashes the payoff freeze. `steps` reframe inside a long line, cut on a word: `[{t, z0, z1, fx, fy, sx, sy, pop}]` |
 | `caps`, `capEnd`, `who` | caption groups `[[word, time], ...]` on the output timeline, optional end time per group, H or G |
 | `xs` | the time each no lands (one X and one tile each) |
 | `q` | `[start, end, slot, pulse faster from]`: a "?" tile waiting on a maybe; slot `len(xs)` is the yes |
@@ -54,10 +60,10 @@ No footage, frames, transcripts, edit lists or `data.json` live in this repo.
 | `fz` | `[t0, t1]` of the freeze after the last no (the last X holds through it) |
 | `zeroText`, `winText` | the tally line on the freeze and the win word |
 | `stripOn` | when the tile row is on screen |
-| `pills` | `{text, s, e, wipe, sub?, cta?}`; `**word**` gets the yellow wipe, `<br>` breaks the line, `cta` is the end question |
+| `pills` | `{text, s, e, wipe, sub?, cta?, top?}`; `**word**` gets the yellow wipe, `<br>` breaks the line, `cta` is the end question, `top` moves a pill or sub line (a sub under a one-line pill sits at 272) |
 | `stickers` | emoji `{e, s, d, x, y, r}` that pop in on a word |
 | `whips` | section changes (zoom blur and a whoosh) |
-| `snd` | section anchors for the score: `theme [t0,t1]`, `roll [t0,t1,dip0,dip1]`, `swell t0`, `groove [t0,t1]`, `button t` |
+| `snd` | section anchors for the score: `theme [t0,t1]`, `roll [t0,t1,dip0,dip1]`, `swell t0`, `groove [t0,t1]`, `tapestop` seconds, `button t` |
 | `link` | the only link on screen (stradvert.org) |
 
 ## Checks that mattered

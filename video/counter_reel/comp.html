@@ -71,11 +71,14 @@ window.render=async function(f){
  const t=f/FPS,im=$('im');
  // ---- shot and framing ----
  let sh=D.shots[0];for(const s of D.shots)if(t>=s.t0-1e-4)sh=s;
- const p=(t-sh.t0)/(sh.t1-sh.t0);let z=sh.z0+(sh.z1-sh.z0)*(sh.freeze?eio(p):p);
- if(sh.pop)z*=1+0.06*(1-eo((t-sh.t0)/0.16));
+ // steps: a reframe inside one shot, cut on a word ({t, z0, z1, fx, fy, sx, sy, pop})
+ let fr={t0:sh.t0,z0:sh.z0,z1:sh.z1,fx:sh.fx,fy:sh.fy,sx:sh.sx,sy:sh.sy,pop:sh.pop};
+ for(const s of (sh.steps||[]))if(t>=s.t-1e-4)fr={t0:s.t,z0:s.z0,z1:s.z1,fx:s.fx,fy:s.fy,sx:s.sx,sy:s.sy,pop:s.pop};
+ const p=(t-fr.t0)/(sh.t1-fr.t0);let z=fr.z0+(fr.z1-fr.z0)*(sh.freeze?eio(p):p);
+ if(fr.pop)z*=1+0.06*(1-eo((t-fr.t0)/0.16));
  let wb=0;for(const w of D.whips){const d=Math.abs(t-w);if(d<0.12){const k=1-d/0.12;wb=Math.max(wb,k);}}
  z*=1+0.07*wb;
- let tx=sh.sx*W-sh.fx*W*z,ty=sh.sy*H-sh.fy*H*z;tx=cl(tx,W-W*z,0);ty=cl(ty,H-H*z,0);
+ let tx=fr.sx*W-fr.fx*W*z,ty=fr.sy*H-fr.fy*H*z;tx=cl(tx,W-W*z,0);ty=cl(ty,H-H*z,0);
  // shake after each X slam and the check
  let sk=0;for(const x of D.xs){const d=t-x;if(d>=0&&d<0.28)sk=Math.max(sk,1-d/0.28);}
  {const d=t-D.check;if(d>=0&&d<0.3)sk=Math.max(sk,1-d/0.3);}
@@ -147,7 +150,7 @@ window.render=async function(f){
   const q=prog(t,gg[0][1]-0.05,0.14);cap.style.opacity=q;cap.style.transform=`translate(-50%,${((1-q)*14).toFixed(2)}px) scale(${((0.94+0.06*q)*(+cap.dataset.fit||1)).toFixed(4)})`;}
 };
 window.ready=(async()=>{D=await (await fetch('data.json')).json();
- $('pills').innerHTML=D.pills.map(p=>p.sub?`<div class="sub">${p.text}</div>`:`<div class="pill${p.cta?' cta':''}">${hl(p.text)}</div>`).join('');
+ $('pills').innerHTML=D.pills.map(p=>{const tp=p.top?` style="top:${p.top}px"`:'';return p.sub?`<div class="sub"${tp}>${p.text}</div>`:`<div class="pill${p.cta?' cta':''}"${tp}>${hl(p.text)}</div>`}).join('');
  $('link').textContent=D.link;
  $('tiles').innerHTML=[...Array(D.xs.length+1)].map(()=>'<div class="tile x"></div>').join('');$('zero').textContent=D.zeroText||'';$('fin').textContent=D.winText||'';
  $('slams').innerHTML=D.xs.map(()=>`<div class="slam">${XSVG}</div>`).join('');
