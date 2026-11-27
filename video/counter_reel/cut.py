@@ -1,6 +1,6 @@
 # Builds the picture (graded frames) and the voice stem from an edit list.
 # Usage: python3 cut.py raw.mov a48.wav a48_dn.wav edl.json   (AUDIO_ONLY=1 rebuilds the voice without re-extracting frames)
-# edl.json: [{k, a, b, loc, note?, bleep?: [s0,s1], aout?: s, fin?, fout?} | {k, freeze: frame, n: frames, loc}], a and b are source frame numbers.
+# edl.json: [{k, a, b, loc, note?, bleep?: [s0,s1], ain?: s, aout?: s, fin?, fout?} | {k, freeze: frame, n: frames, loc}], a and b are source frame numbers.
 # Every cut is on a frame boundary that sits in a gap between words; audio gets short fades at each cut.
 import json,os,sys,subprocess,wave,numpy as np
 from scipy.signal import butter,sosfilt,lfilter
@@ -40,7 +40,8 @@ for e in E:
         tt=np.arange(j1-j0)/SR;tone=np.sin(2*np.pi*1000*tt)*ref*1.6
         f=np.minimum(1,np.minimum(tt,tt[::-1])/0.004);x[j0:j1]=tone*f
     fin=int(e.get('fin',0.010)*SR);fout=int(e.get('fout',0.012)*SR)
-    g=np.ones(len(x),np.float32);g[:fin]=np.linspace(0,1,fin)**1.5
+    g=np.ones(len(x),np.float32);j0=max(0,int(round((e.get('ain',ta)-ta)*SR)))   # ain: audio starts a few ms after the picture cut
+    g[:j0]=0;g[j0:j0+fin]=np.linspace(0,1,fin)**1.5
     end=len(x)
     g[end-fout:end]=np.minimum(g[end-fout:end],np.linspace(1,0,fout)**1.5)
     voice.append((int(round(t0*SR)),x*g))

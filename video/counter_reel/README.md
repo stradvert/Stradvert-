@@ -25,6 +25,22 @@ one person unless necessary". What that meant in practice: drop any line that do
 like "just guess", a side joke after a no), split a question from its answer and punch in on the answer, cut long
 thinking pauses down to about half a second, and reframe inside a long answer on a key word.
 
+## Series (one shoot cut into parts that lead into each other)
+
+First used 27 Nov 2026 for a three part series: part 1 the counter, ending on a teaser of part 2; part 2 a fast recap
+montage of the no's and the story of the one who knew; part 3 the best yeses, ending on the comment question. Each
+part ends on its cliffhanger: a question or a line cut before the answer, then a card for the next part.
+
+- `badge` `{text, s, e}`: the "PART 1" tag above the headline.
+- `card` `{s, title, sub}`: dims the last frame (hold it with a freeze in the edit list) and slams the next part's title.
+  The sub line is a question or a tease, never a claim ("(who's Julian?)", "(his answer)").
+- `noTiles: true` with `xScale` and `xHold`: quick X stamps for a montage, no tile row and no counter number.
+- A recap montage keeps the real order: use the no's that happened before the moment it leads into.
+- `snd_cues.py data.json music.wav sfx.wav` builds the sound from a cue list (`cues` in data.json) instead of the
+  fixed counter shape: theme, roll, trombone, swell, hit, aah, groove, button, tension, sting, impact, buzz, buzzer,
+  tock, boing, pop, whoosh, scratch, bell. Instruments live in `synth.py`.
+- `cut.py` takes `ain` on a piece whose picture cut sits right against the previous word: the audio starts a few ms later.
+
 ## Counter rules (see the repo `CLAUDE.md`)
 
 - Count only asks with an answer on camera, keep them in the real order, and the tiles on screen match the asks shown.

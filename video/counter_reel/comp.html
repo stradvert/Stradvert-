@@ -28,6 +28,10 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 #chk{position:absolute;left:350px;top:620px;width:380px;height:380px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;opacity:0;z-index:31;box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 0 0 12px rgba(255,255,255,.9)}
 #fin{position:absolute;left:50%;top:1010px;font-family:MI;font-weight:900;font-style:italic;font-size:168px;letter-spacing:2px;color:#FCEF00;white-space:nowrap;opacity:0;z-index:32;-webkit-text-stroke:14px #111;paint-order:stroke fill;text-shadow:0 14px 40px rgba(0,0,0,.5)}
 #conf{position:absolute;left:0;top:0;z-index:33}
+#badge{position:absolute;left:50%;top:88px;background:#FCEF00;color:#111;font-family:MI;font-weight:900;font-style:italic;font-size:32px;letter-spacing:1px;padding:5px 18px 7px;border-radius:12px;white-space:nowrap;opacity:0;z-index:22;box-shadow:0 10px 26px rgba(0,0,0,.3)}
+#cscrim{position:absolute;inset:0;background:#000;opacity:0;z-index:34}
+#ctitle{position:absolute;left:50%;top:700px;font-family:MI;font-weight:900;font-style:italic;font-size:210px;letter-spacing:3px;color:#FCEF00;white-space:nowrap;opacity:0;z-index:35;-webkit-text-stroke:16px #111;paint-order:stroke fill;text-shadow:0 16px 50px rgba(0,0,0,.55)}
+#csub{position:absolute;left:50%;top:985px;background:#fff;color:#111;border-radius:44px;padding:20px 44px 22px;font-weight:800;font-size:52px;white-space:nowrap;opacity:0;z-index:35;box-shadow:0 18px 50px rgba(0,0,0,.4)}
 #cap{position:absolute;left:50%;top:1250px;border-radius:26px;padding:12px 16px;font-weight:800;font-size:66px;letter-spacing:.2px;white-space:nowrap;opacity:0;background:rgba(17,17,17,.88);box-shadow:0 16px 44px rgba(0,0,0,.35);z-index:25}
 #cap span{display:inline-block;padding:6px 14px;margin:0 1px;border-radius:14px}
 #cap span.on{background:#FCEF00;color:#111}
@@ -40,6 +44,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 <div id="chk"><svg width="250" height="250" viewBox="0 0 24 24"><path d="M5 12.6l4.4 4.4L19.2 7" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
 <div id="fin"></div>
 <canvas id="conf" width="1080" height="1920"></canvas>
+<div id="badge"></div><div id="cscrim"></div><div id="ctitle"></div><div id="csub"></div>
 <div id="stks"></div>
 <div id="cap"></div>
 <div id="flash"></div>
@@ -98,9 +103,9 @@ window.render=async function(f){
  // ---- pills ----
  [...$('pills').children].forEach((el,i)=>{const P=D.pills[i];el.style.opacity=io(t,P.s,P.e);el.style.transform=`translate(-50%,${((1-prog(t,P.s))*(P.sub?18:26)).toFixed(2)}px) scale(${(0.96+0.04*prog(t,P.s,0.3)).toFixed(4)})`;
   el.querySelectorAll('.hl i').forEach(x=>{x.style.transform=`scaleX(${prog(t,P.wipe===undefined?P.s+0.4:P.wipe,0.4)})`});});
- const cta=D.pills.find(p=>p.cta);{const q=prog(t,cta.s+0.35,0.35);$('link').style.opacity=q;$('link').style.transform=`translate(-50%,${((1-q)*16).toFixed(2)}px)`;}
+ const cta=D.pills.find(p=>p.cta);if(cta){const q=prog(t,cta.s+0.35,0.35);$('link').style.opacity=q;$('link').style.transform=`translate(-50%,${((1-q)*16).toFixed(2)}px)`;}
  // ---- counter strip ----
- const so=Math.min(prog(t,D.stripOn[0],0.3),1-prog(t,D.stripOn[1]-0.25,0.25));const n=tileCount(t);
+ const so=D.stripOn?Math.min(prog(t,D.stripOn[0],0.3),1-prog(t,D.stripOn[1]-0.25,0.25)):0;const n=D.stripOn?tileCount(t):0;
  // the row re-centres smoothly as tiles are added
  const pl=$('plate');
  let nn=n;{let last=-9;D.xs.forEach((x,i)=>{const at=land(i);if(t>=at)last=Math.max(last,at)});D.q.forEach(q=>{if(t>=q[0])last=Math.max(last,q[0])});
@@ -118,7 +123,10 @@ window.render=async function(f){
   const xx=tileX(i,nn);el.style.left=xx+'px';el.style.transform=`scale(${s.toFixed(4)})`;});
  // ---- X slams ----
  [...$('slams').children].forEach((el,i)=>{const x=D.xs[i],he=slamHoldEnd(i);let o=0,cx=540,cy=1020,s=1,r=0;
-  if(t>=x-0.02&&t<he+SLAM_FLY){
+  const XS_=D.xScale||1,HOLD=D.xHold||0.30;
+  if(D.noTiles){if(t>=x-0.02&&t<x+HOLD+0.14){if(t<x+SLAM_IN){const q=(t-x+0.02)/(SLAM_IN+0.02);s=(2.4-1.4*back(q))*XS_;r=-14*(1-eo(q));o=cl(q*2.5);}
+    else if(t<x+HOLD){s=XS_;o=1;}else{const q=(t-x-HOLD)/0.14;s=XS_*(1-0.5*q);o=1-q;}}}
+  else if(t>=x-0.02&&t<he+SLAM_FLY){
    if(t<x+SLAM_IN){const q=(t-x+0.02)/(SLAM_IN+0.02);s=2.4-1.4*back(q);r=-14*(1-eo(q));o=cl(q*2.5);}
    else if(t<he){s=1+0.03*Math.sin((t-x)*18)*Math.exp(-(t-x)*6);o=1;}
    else{const q=eio((t-he)/SLAM_FLY);const txx=tileX(i,Math.max(i+1,tileCount(he)))+42,tyy=388;cx=540+(txx-540)*q;cy=1020+(tyy-1020)*q;s=1-(1-84/440*0.9)*q;o=1;r=-8*q;}
@@ -141,6 +149,11 @@ window.render=async function(f){
  [...$('stks').children].forEach((el,i)=>{const s=D.stickers[i];const a=s.s,e=s.s+s.d;if(t<a-0.01||t>e+0.16){el.style.opacity=0;return}
   const q=back((t-a)/0.24),out=1-eo((t-e)/0.15);const bob=Math.sin((t-a)*5)*4;el.style.opacity=cl((t-a)/0.05)*out;
   el.style.transform=`translate(-50%,-50%) translateY(${bob.toFixed(1)}px) rotate(${(s.r-16*(1-eo((t-a)/0.3))).toFixed(2)}deg) scale(${(q*out).toFixed(4)})`;});
+ // ---- series badge and end card ----
+ if(D.badge){const b=$('badge'),q=io(t,D.badge.s,D.badge.e,0.3);b.style.opacity=q;b.style.transform=`translate(-50%,${((1-prog(t,D.badge.s,0.3))*-12).toFixed(2)}px) rotate(-3deg)`;}
+ if(D.card){const c=D.card,k=prog(t,c.s,0.25);$('cscrim').style.opacity=(0.6*k).toFixed(3);
+  const q=back((t-c.s-0.05)/0.3),ti=$('ctitle');ti.style.opacity=t>=c.s+0.03?1:0;ti.style.transform=`translate(-50%,0) scale(${(0.35+0.65*q).toFixed(4)}) rotate(-4deg)`;
+  const q2=prog(t,c.s+0.25,0.3),su=$('csub');su.style.opacity=q2;su.style.transform=`translate(-50%,${((1-q2)*22).toFixed(2)}px)`;}
  // ---- captions ----
  const cap=$('cap');let gi=-1;for(let i=0;i<D.caps.length;i++)if(t>=D.caps[i][0][1]-0.05)gi=i;
  let show=gi>=0;if(show&&D.capEnd[gi]!==null&&t>D.capEnd[gi])show=false;
@@ -152,6 +165,7 @@ window.render=async function(f){
 window.ready=(async()=>{D=await (await fetch('data.json')).json();
  $('pills').innerHTML=D.pills.map(p=>{const tp=p.top?` style="top:${p.top}px"`:'';return p.sub?`<div class="sub"${tp}>${p.text}</div>`:`<div class="pill${p.cta?' cta':''}"${tp}>${hl(p.text)}</div>`}).join('');
  $('link').textContent=D.link;
+ if(D.badge)$('badge').textContent=D.badge.text;if(D.card){$('ctitle').textContent=D.card.title;$('csub').textContent=D.card.sub||'';if(!D.card.sub)$('csub').style.display='none';}
  $('tiles').innerHTML=[...Array(D.xs.length+1)].map(()=>'<div class="tile x"></div>').join('');$('zero').textContent=D.zeroText||'';$('fin').textContent=D.winText||'';
  $('slams').innerHTML=D.xs.map(()=>`<div class="slam">${XSVG}</div>`).join('');
  $('stks').innerHTML=D.stickers.map(s=>`<div class="stk" style="left:${s.x}px;top:${s.y}px">${s.e}</div>`).join('');
