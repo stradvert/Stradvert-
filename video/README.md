@@ -7,6 +7,7 @@ No footage, frames, transcripts or scene data are stored here.
 | --- | --- | --- |
 | `minimal_portrait_reel/` | Minimal (the default edit), data-driven template | 1080x1920 |
 | `claude_founder_reel/` | Minimal, first version, with quote and ranking cards | 1080x1920 |
+| `day_in_the_life/` | Minimal, story edit with no voiceover (cut, sound and data scripts) | 1080x1920 |
 | `square_trailer_edit/` | Trailer, square picture inside a portrait canvas | 1080x1920 |
 | `sales_call_montage/` | Trailer, widescreen | 1920x1080 |
 

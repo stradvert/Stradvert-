@@ -31,6 +31,17 @@ from: `video/claude_founder_reel/comp.html`.
 4. Render stills and look at them before the full render. Fix anything over the face, off the frame or wrapping.
 5. `snd.py`, `encode.sh`, then check the finished file, not the working files.
 
+## Story edits (day in the life, no voiceover)
+
+Worked example and scripts: `video/day_in_the_life/` (its README has the shape and the checks).
+
+- Open on the strangest picture in the footage with the context pill already on screen in frame one. The bracketed second line lands half a second later. One clear spoken line in the first two seconds.
+- Then rewind and tell it in order. Ryan's own lines carry the story as captions, pills fill the gaps, one idea per shot.
+- Stop the music for the punchline. Bring it back on the next cut.
+- Phone screen recordings and pages he showed on a call go in as tall cards over the dimmed footage. A workflow reads best as a three-row tick list.
+- Do the privacy pass on every screen before it goes in (see `CLAUDE.md`).
+- If the brief and the footage disagree, cut what the footage shows and tell him.
+
 ## Rules
 
 Follow "Video rules" in the repo `CLAUDE.md`. They are short and they are hard rules.

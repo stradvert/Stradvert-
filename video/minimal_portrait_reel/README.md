@@ -37,6 +37,13 @@ Everything on screen comes from `data.json`. No footage, frames, transcripts or 
 | `shrinkTop` | vertical offset of the footage inside the shrunken card (default `-450`) |
 | `capPlate` | `true` dark plate behind captions (default), `false` bare text with shadow |
 | `link` | end card link (default `stradvert.org`) |
+| `cards` | tall cards over the dimmed footage (a phone screen recording, a rendered page): `{s, e, dir, n, x, y, w, h, r, bezel}` |
+| `lists` | tick lists: `{s, e, y, dim, rows: [{text, at}]}`, each row ticks at its `at` time |
+| `capEnd` | optional end time per caption group (same order as `caps`), so a caption clears before a cut |
+| `cutFx` | per-shot push-in: `{"<cut index>": {"zoom": 0.1, "focus": [50, 47]}}` |
+
+A pill with `"sub": true` is the small bracketed second line. It sits on its own dark plate so it reads over bright sky.
+For an edit with no voiceover (a day in the life), see `../day_in_the_life/`.
 
 Custom cards (quote card, ranking, status card) are in `../claude_founder_reel/comp.html`: copy the block you need.
 

@@ -21,6 +21,7 @@ Templates, each with a README:
 
 - `video/minimal_portrait_reel/` : data-driven template for the minimal style.
 - `video/claude_founder_reel/` : the first minimal edit. Has the quote card and ranking card to copy.
+- `video/day_in_the_life/` : story edit with no voiceover (day in the life), built on the minimal template.
 - `video/square_trailer_edit/` : trailer style as a square inside a 1080x1920 canvas (daylight footage).
 - `video/sales_call_montage/` : trailer style at 1920x1080 (dark call footage).
 
@@ -40,6 +41,14 @@ Templates, each with a README:
 9. The private word list, client figures and claims rules are not in this repo because it is public. Before any
    claim, client name, number or link goes on screen, use the brief pasted in the session and Ryan's account
    skills (`stradvert-standing-facts`, `stradvert-proof-vault`). If neither is available, ask him for the hard rules.
+
+How rule 3 works when there is no voiceover (day in the life, 27 Nov 2026): pills may tell the story Ryan gave in
+his brief, in plain facts from the footage or the brief. Still no performance claims and no client names. If his
+brief and what he says on camera disagree, the edit says what the footage shows, and the reply tells him.
+
+Privacy pass before any screen goes in an edit: screen recordings and laptop shots can show a home address, recent
+searches, an inbox or a prospect's name. Trim or blur them and say so in the reply. A prospect's brand stays off
+screen unless it is on the proof page.
 
 One exception so far to rule 4. On 27 Nov 2026 Ryan asked for a "I could fake this view" moment to swap the
 background to somewhere that looks really bad, then put it back. No such footage exists, so Claude generated
