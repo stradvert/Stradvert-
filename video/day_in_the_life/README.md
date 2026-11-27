@@ -13,7 +13,7 @@ No footage, frames, transcripts or `data.json` live in this repo.
 2. **Rewind:** "The plan", told fast. The phone screen recording plays next to the shot of him on his phone (split screen:
    the footage moves into a card on the left, the recording grows out of his phone on the right).
 3. **The story**, in the speaker's own words, cut on pauses.
-4. **The punchline** with the music stopped.
+4. **The punchline** on its own (if there is a score, it stops here).
 5. **The work:** what the day was actually for, one idea per shot (call, what was shown on the call, what happens after it).
 6. **Close:** one wry line, a last spoken tag, end card.
 
