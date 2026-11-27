@@ -1,0 +1,23 @@
+{
+  "nf": 600,
+  "total": 666,
+  "vd": 20.0,
+  "lastEnd": 19.8,
+  "cuts": [0, 6.4, 13.1, 20.0],
+  "focus": [52, 36],
+  "shrinkTop": -450,
+  "capPlate": true,
+  "link": "stradvert.org",
+  "pills": [
+    {"text": "The headline with **key words**", "s": 0.15, "e": 4.5, "wipe": 0.6},
+    {"text": "(optional small line under it)", "s": 0.9, "e": 4.5, "sub": true},
+    {"text": "Second pill, **one idea**", "s": 6.6, "e": 9.8, "wipe": 7.1}
+  ],
+  "broll": [
+    {"s": 10.4, "e": 13.0, "dir": "b0", "n": 96, "y": 330, "h": 560}
+  ],
+  "caps": [
+    [["First", 0.0], ["three", 0.22], ["words", 0.41]],
+    [["then", 0.8], ["the", 0.95], ["next.", 1.1]]
+  ]
+}
