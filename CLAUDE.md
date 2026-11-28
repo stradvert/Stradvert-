@@ -26,6 +26,7 @@ Templates, each with a README:
 - `video/sales_call_montage/` : trailer style at 1920x1080 (dark call footage).
 - `video/raw_review/` : tools for long raws (transcript with host and guest labels, b-roll finder, selects reel, clean-cut tools: loudness strip, word aligner, cut check).
 - `video/counter_reel/` : counter edit (a run of no's with X tiles, then the yes), halfway between minimal and trailer.
+- `video/brand_trip_reel/` : a client's street ad remade in the client's own colours and type, product highlight, honey drip "minutes later" and a trippy WebGL payoff (4:5).
 
 ## Video rules (every edit)
 
