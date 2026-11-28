@@ -1,6 +1,6 @@
 # Builds the picture (graded frames) and the voice stem from an edit list.
 # Usage: python3 cut.py raw.mov a48.wav a48_dn.wav edl.json   (AUDIO_ONLY=1 rebuilds the voice without re-extracting frames)
-# edl.json: [{k, a, b, loc, note?, bleep?: [s0,s1], ain?: s, aout?: s, fin?, fout?} | {k, freeze: frame, n: frames, loc}], a and b are source frame numbers.
+# edl.json: [{k, a, b, loc, note?, bleep?: [s0,s1], ain?: s, aout?: s, fin?, fout?} | {k, freeze: frame, n: frames, loc} | {k, image: path, n: frames, w?}], a and b are source frame numbers.
 # Every cut is on a frame boundary that sits in a gap between words; audio gets short fades at each cut.
 import json,os,sys,subprocess,wave,numpy as np
 from scipy.signal import butter,sosfilt,lfilter
@@ -17,6 +17,16 @@ O=rd(A48);Dn=rd(ADN)[480:];n=min(len(O),len(Dn));O=O[:n];Dn=Dn[:n]   # arnndn ou
 os.makedirs('frames',exist_ok=True)
 fi=1;voice=[];segs=[];t0=0
 for e in E:
+    if 'image' in e:                                  # a still (a meme cutaway, a screenshot): blurred fill behind it, held for n frames, no voice
+        if not os.environ.get('AUDIO_ONLY'):
+            from PIL import Image,ImageFilter
+            im=Image.open(e['image']).convert('RGB');W_,H_=1080,1920;sc=max(W_/im.width,H_/im.height)
+            bg=im.resize((int(im.width*sc)+2,int(im.height*sc)+2));l=(bg.width-W_)//2;tp=(bg.height-H_)//2
+            bg=bg.crop((l,tp,l+W_,tp+H_)).filter(ImageFilter.GaussianBlur(40)).point(lambda v:int(v*0.45))
+            fw=e.get('w',1000);fg=im.resize((fw,int(im.height*fw/im.width)));bg.paste(fg,((W_-fw)//2,(H_-fg.height)//2))
+            first=f"frames/{fi:05d}.jpg";bg.save(first,quality=95)
+            for j in range(1,e['n']):os.link(first,f"frames/{fi+j:05d}.jpg")
+        fi+=e['n'];segs.append({**e,'t0':t0,'t1':t0+e['n']/FPS,'f0':fi-e['n']});t0+=e['n']/FPS;continue
     if 'freeze' in e:
         src=f"frames/{fi-1:05d}.jpg"
         for j in range(e['n']):

@@ -1,7 +1,7 @@
 # Score and sound design from a list of cues in data.json ("cues"), for edits that are not the single counter shape
 # (series parts, montages). Usage: python3 snd_cues.py data.json music.wav sfx.wav
 # Cue types: theme [t0,t1,layers], roll [t0,t1,dip], trombone t, swell [t0,t1], hit t, groove [t0,t1,tapestop], button t,
-# tension [t0,t1], sting t, impact t, aah t, buzz t (short), buzzer t, stamp t, tock t, boing t, pop t, whoosh t (end), scratch t, bell t
+# tension [t0,t1], sting t, impact t, boom t, aah t, buzz t (short), buzzer t, stamp t, tock t, boing t, pop t, whoosh t (end), scratch t, bell t
 import json,sys,numpy as np,soundfile as sf
 from synth import *
 D=json.load(open(sys.argv[1]));TOTAL=D['total']/30.0;N=int(sr*(TOTAL+1.5))
@@ -88,6 +88,9 @@ for c in D.get('cues',[]):
     elif k=='tension':tension(c['t0'],c['t1'])
     elif k=='sting':sting(c['t'])
     elif k=='impact':impact(c['t'])
+    elif k=='boom':
+        bx=np.arange(int(1.4*sr))/sr;b=np.tanh(np.sin(2*np.pi*np.cumsum(48*np.exp(-bx*1.8)+28)/sr)*np.exp(-bx*2.2)*2.2)*0.8
+        s_=st(b);add(sfx,s_,c['t'],1.2);add(sfx,0.3*reverb(s_,2.0,seed=31),c['t'],1.0)
     elif k=='buzz':add(sfx,st(buzzer(1.0)[:int(0.2*sr)]*np.linspace(1,0,int(0.2*sr))**0.5,0.0),c['t'],0.9);add(sfx,st(stamp(1.0)),c['t'],0.7)
     elif k=='buzzer':add(sfx,st(buzzer(1.0),0.0),c['t'],1.0);add(sfx,st(stamp(1.0)),c['t'],0.9)
     elif k=='tock':add(sfx,st(block(1650,1.0),0.3),c['t'],0.35)

@@ -66,6 +66,10 @@ Music: on the first day in the life (27 Nov 2026) Ryan asked for the music to be
 far. Claude's reading: day in the life and vlog style edits go out with voice, natural sound and light effects,
 and it is worth asking before adding a score to any edit.
 
+Meme cutaways (28 Nov 2026): Ryan asked for a funny photo after a "dodgy downloads" punchline and sent a mix of memes.
+Claude used the one with no real person in it (a cat with human hands). Claude's reading: a cutaway gag never uses a
+real person's face or body as the punchline, because the edit then mocks or sexualises them on a brand account.
+
 One exception so far to rule 4. On 27 Nov 2026 Ryan asked for a "I could fake this view" moment to swap the
 background to somewhere that looks really bad, then put it back. No such footage exists, so Claude generated
 the background locally with an open-licence image model and labelled it "Fake view" on screen. That was

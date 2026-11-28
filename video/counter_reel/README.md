@@ -40,6 +40,8 @@ part ends on its cliffhanger: a question or a line cut before the answer, then a
   fixed counter shape: theme, roll, trombone, swell, hit, aah, groove, button, tension, sting, impact, buzz, buzzer,
   tock, boing, pop, whoosh, scratch, bell. Instruments live in `synth.py`.
 - `cut.py` takes `ain` on a piece whose picture cut sits right against the previous word: the audio starts a few ms later.
+- A still cutaway (a meme after a punchline): an edit list entry `{k, image, n, w}` holds the image over a blurred fill
+  for n frames with no voice. Pair it with the `boom` cue and clear the caption before it (`capEnd`).
 
 ## Counter rules (see the repo `CLAUDE.md`)
 
