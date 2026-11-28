@@ -28,6 +28,8 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 #chk{position:absolute;left:350px;top:620px;width:380px;height:380px;border-radius:50%;background:#22C55E;display:flex;align-items:center;justify-content:center;opacity:0;z-index:31;box-shadow:0 24px 60px rgba(0,0,0,.45),inset 0 0 0 12px rgba(255,255,255,.9)}
 #fin{position:absolute;left:50%;top:1010px;font-family:MI;font-weight:900;font-style:italic;font-size:168px;letter-spacing:2px;color:#FCEF00;white-space:nowrap;opacity:0;z-index:32;-webkit-text-stroke:14px #111;paint-order:stroke fill;text-shadow:0 14px 40px rgba(0,0,0,.5)}
 #conf{position:absolute;left:0;top:0;z-index:33}
+.ov{position:absolute;opacity:0;z-index:23;border:10px solid #fff;border-radius:14px;background:#fff;box-shadow:0 22px 50px rgba(0,0,0,.5)}
+.ov img{display:block;width:100%;height:auto;border-radius:6px}
 #badge{position:absolute;left:50%;top:88px;background:#FCEF00;color:#111;font-family:MI;font-weight:900;font-style:italic;font-size:32px;letter-spacing:1px;padding:5px 18px 7px;border-radius:12px;white-space:nowrap;opacity:0;z-index:22;box-shadow:0 10px 26px rgba(0,0,0,.3)}
 #cscrim{position:absolute;inset:0;background:#000;opacity:0;z-index:34}
 #ctitle{position:absolute;left:50%;top:700px;font-family:MI;font-weight:900;font-style:italic;font-size:210px;letter-spacing:3px;color:#FCEF00;white-space:nowrap;opacity:0;z-index:35;-webkit-text-stroke:16px #111;paint-order:stroke fill;text-shadow:0 16px 50px rgba(0,0,0,.55)}
@@ -45,7 +47,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 <div id="fin"></div>
 <canvas id="conf" width="1080" height="1920"></canvas>
 <div id="badge"></div><div id="cscrim"></div><div id="ctitle"></div><div id="csub"></div>
-<div id="stks"></div>
+<div id="stks"></div><div id="ovs"></div>
 <div id="cap"></div>
 <div id="flash"></div>
 <div id="bar"></div>
@@ -154,6 +156,10 @@ window.render=async function(f){
  if(D.card){const c=D.card,k=prog(t,c.s,0.25);$('cscrim').style.opacity=(0.6*k).toFixed(3);
   const q=back((t-c.s-0.05)/0.3),ti=$('ctitle');ti.style.opacity=t>=c.s+0.03?1:0;ti.style.transform=`translate(-50%,0) scale(${(0.35+0.65*q).toFixed(4)}) rotate(-4deg)`;
   const q2=prog(t,c.s+0.25,0.3),su=$('csub');su.style.opacity=q2;su.style.transform=`translate(-50%,${((1-q2)*22).toFixed(2)}px)`;}
+ // ---- image overlays (a photo card over the footage while someone talks) ----
+ [...$('ovs').children].forEach((el,i)=>{const o=D.overlays[i];if(t<o.s-0.01||(o.hard?t>=o.e:t>o.e+0.15)){el.style.opacity=0;return}
+  const q=back((t-o.s)/0.28),out=o.hard?1:1-eo((t-o.e)/0.15),bob=Math.sin((t-o.s)*4)*4;el.style.opacity=cl((t-o.s)/0.06)*out;
+  el.style.transform=`translateY(${bob.toFixed(1)}px) rotate(${((o.rot||0)-10*(1-eo((t-o.s)/0.3))).toFixed(2)}deg) scale(${(q*out).toFixed(4)})`;});
  // ---- captions ----
  const cap=$('cap');let gi=-1;for(let i=0;i<D.caps.length;i++)if(t>=D.caps[i][0][1]-0.05)gi=i;
  let show=gi>=0;if(show&&D.capEnd[gi]!==null&&t>D.capEnd[gi])show=false;
@@ -166,6 +172,8 @@ window.ready=(async()=>{D=await (await fetch('data.json')).json();
  $('pills').innerHTML=D.pills.map(p=>{const tp=p.top?` style="top:${p.top}px"`:'';return p.sub?`<div class="sub"${tp}>${p.text}</div>`:`<div class="pill${p.cta?' cta':''}"${tp}>${hl(p.text)}</div>`}).join('');
  $('link').textContent=D.link;
  if(D.badge)$('badge').textContent=D.badge.text;if(D.card){$('ctitle').textContent=D.card.title;$('csub').textContent=D.card.sub||'';if(!D.card.sub)$('csub').style.display='none';}
+ $('ovs').innerHTML=(D.overlays||[]).map(o=>`<div class="ov" style="left:${o.x}px;top:${o.y}px;width:${o.w}px"><img src="${o.src}"></div>`).join('');
+ await Promise.all([...document.querySelectorAll('.ov img')].map(im=>im.decode?im.decode().catch(()=>{}):null));
  $('tiles').innerHTML=[...Array(D.xs.length+1)].map(()=>'<div class="tile x"></div>').join('');$('zero').textContent=D.zeroText||'';$('fin').textContent=D.winText||'';
  $('slams').innerHTML=D.xs.map(()=>`<div class="slam">${XSVG}</div>`).join('');
  $('stks').innerHTML=D.stickers.map(s=>`<div class="stk" style="left:${s.x}px;top:${s.y}px">${s.e}</div>`).join('');
