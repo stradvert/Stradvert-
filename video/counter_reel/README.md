@@ -42,6 +42,10 @@ part ends on its cliffhanger: a question or a line cut before the answer, then a
 - `cut.py` takes `ain` on a piece whose picture cut sits right against the previous word: the audio starts a few ms later.
 - `overlays` `[{s, e, src, x, y, w, rot, hard}]`: a photo card over the footage while someone talks (Ryan asked for the
   meme to sit on screen during the line, not after it, 28 Nov 2026). Keep it off the speaker's face; `hard` ends it on the cut.
+- `inserts` `[{s, e, dir, n, ar, w, y, title, dl, dly}]`: when a guest describes a famous clip, the clip itself plays in a retro
+  player window over a dimmed freeze (an edit list freeze from `s` to `e`), after a download bar labelled `title` fills from
+  `dl[0]` (first used 28 Nov 2026, at Ryan's request). Frames go in `dir/00001.jpg` on at 30 fps, `n` of them; splice the clip's
+  audio into the voice stem at `s` and stop the music under it. Only a clip Ryan supplies or asks for.
 - A still cutaway (a meme after a punchline): an edit list entry `{k, image, n, w}` holds the image over a blurred fill
   for n frames with no voice. Pair it with the `boom` cue and clear the caption before it (`capEnd`).
 

@@ -37,6 +37,21 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 #cap{position:absolute;left:50%;top:1250px;border-radius:26px;padding:12px 16px;font-weight:800;font-size:66px;letter-spacing:.2px;white-space:nowrap;opacity:0;background:rgba(17,17,17,.88);box-shadow:0 16px 44px rgba(0,0,0,.35);z-index:25}
 #cap span{display:inline-block;padding:6px 14px;margin:0 1px;border-radius:14px}
 #cap span.on{background:#FCEF00;color:#111}
+/* inserts: a short clip someone describes plays in a retro player window over a dimmed freeze, after a download bar fills */
+.dl{position:absolute;left:50%;width:640px;background:linear-gradient(#f7f7f7,#dadada);color:#111;border-radius:18px;padding:20px 26px 24px;box-shadow:0 18px 46px rgba(0,0,0,.45),inset 0 1px 0 #fff;opacity:0;z-index:26}
+.dl .row{display:flex;align-items:center;gap:18px;font-weight:800;font-size:40px}
+.pb{height:24px;border-radius:12px;background:#b4b4b4;overflow:hidden;box-shadow:inset 0 2px 5px rgba(0,0,0,.35)}
+.pb i{display:block;height:100%;width:0;background:linear-gradient(#9BFF7E,#29B83A);border-radius:12px}
+.dl .pb{margin-top:18px}
+.pw{position:absolute;left:50%;border-radius:20px;background:linear-gradient(#ececec,#cdcdcd);padding:0 12px 12px;box-shadow:0 34px 90px rgba(0,0,0,.65),inset 0 1px 0 #fff;opacity:0;z-index:27;transform-origin:50% 0}
+.pw .tb{height:62px;display:flex;align-items:center;gap:14px;padding:0 4px;color:#222;font-weight:800;font-size:34px}
+.pw .bt{margin-left:auto;display:flex;gap:10px}.pw .bt b{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:9px;background:linear-gradient(#fdfdfd,#c4c4c4);box-shadow:inset 0 0 0 2px #8a8a8a}
+.pw .scr{position:relative;border-radius:8px;overflow:hidden;background:#000}
+.pw canvas{display:block;width:100%}
+.pw .scan{position:absolute;inset:0;background:repeating-linear-gradient(rgba(0,0,0,.16) 0 2px,rgba(0,0,0,0) 2px 5px),radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 60%,rgba(0,0,0,.35) 100%)}
+.pw .ctl{height:58px;display:flex;align-items:center;gap:18px;padding:0 8px}
+.pw .pl{width:0;height:0;border-left:28px solid #2a2a2a;border-top:17px solid transparent;border-bottom:17px solid transparent}
+.pw .ctl .pb{flex:1;height:18px}
 .stk{position:absolute;font-family:'Noto Color Emoji';font-size:150px;line-height:1;opacity:0;z-index:24;filter:drop-shadow(0 12px 22px rgba(0,0,0,.45))}
 </style></head><body>
 <div id="vid"><img id="im"><div id="vig"></div><div id="topshade"></div><div id="red"></div></div>
@@ -47,7 +62,7 @@ html,body{width:1080px;height:1920px;overflow:hidden;background:#000;font-family
 <div id="fin"></div>
 <canvas id="conf" width="1080" height="1920"></canvas>
 <div id="badge"></div><div id="cscrim"></div><div id="ctitle"></div><div id="csub"></div>
-<div id="stks"></div><div id="ovs"></div>
+<div id="stks"></div><div id="ovs"></div><div id="ins"></div>
 <div id="cap"></div>
 <div id="flash"></div>
 <div id="bar"></div>
@@ -95,6 +110,7 @@ window.render=async function(f){
  let filt='';if(wb>0.01)filt+=`blur(${(wb*9).toFixed(2)}px) `;
  if(sh.grey){const g=eo((t-sh.t0)/0.18);filt+=`grayscale(${(0.85*g).toFixed(3)}) contrast(${(1+0.1*g).toFixed(3)}) brightness(${(1-0.08*g).toFixed(3)})`;}
  if(sh.bright){const g=1-eo((t-sh.t0)/0.5);filt+=`brightness(${(1+0.25*g).toFixed(3)}) saturate(${(1+0.25*g).toFixed(3)})`;}
+ for(const n of (D.inserts||[]))if(t>=n.s&&t<n.e){const k=eo((t-n.s)/0.22);filt+=` blur(${(16*k).toFixed(2)}px) brightness(${(1-0.5*k).toFixed(3)})`;}
  im.style.filter=filt.trim()||'none';
  await setImg(im,'frames/'+pad(Math.min(D.nf,f+1))+'.jpg');
  // red edge flash on each no
@@ -160,6 +176,16 @@ window.render=async function(f){
  [...$('ovs').children].forEach((el,i)=>{const o=D.overlays[i];if(t<o.s-0.01||(o.hard?t>=o.e:t>o.e+0.15)){el.style.opacity=0;return}
   const q=back((t-o.s)/0.28),out=o.hard?1:1-eo((t-o.e)/0.15),bob=Math.sin((t-o.s)*4)*4;el.style.opacity=cl((t-o.s)/0.06)*out;
   el.style.transform=`translateY(${bob.toFixed(1)}px) rotate(${((o.rot||0)-10*(1-eo((t-o.s)/0.3))).toFixed(2)}deg) scale(${(q*out).toFixed(4)})`;});
+ // ---- inserts: download bar fills, then the clip plays in a player window ----
+ (D.inserts||[]).forEach((n,i)=>{const dl=$('dl'+i),pw=$('pw'+i);
+  if(n.dl&&t>=n.dl[0]-0.01&&t<n.s+0.12){const q=back((t-n.dl[0])/0.26),out=1-eo((t-n.s)/0.12);dl.style.opacity=cl((t-n.dl[0])/0.06)*out;
+   dl.style.transform=`translateX(-50%) scale(${(q*(0.9+0.1*out)).toFixed(4)})`;dl.querySelector('.pb i').style.width=(100*eio((t-n.dl[0])/Math.max(0.2,n.s-n.dl[0]-0.08))).toFixed(2)+'%';}
+  else if(dl)dl.style.opacity=0;
+  if(t>=n.s-0.01&&t<n.e+0.06){const q=back((t-n.s)/0.3),out=1-eo((t-(n.e-0.1))/0.16);pw.style.opacity=cl((t-n.s)/0.05)*out;
+   pw.style.transform=`translateX(-50%) scale(${(Math.max(0.3,q)*(0.6+0.4*out)).toFixed(4)})`;
+   const j=cl(Math.floor((t-n.s)*FPS+1e-3),0,n.n-1),c=pw.querySelector('canvas');c.getContext('2d').drawImage(n._im[j],0,0,c.width,c.height);
+   pw.querySelector('.ctl .pb i').style.width=(100*cl((t-n.s)/(n.e-n.s))).toFixed(2)+'%';}
+  else pw.style.opacity=0;});
  // ---- captions ----
  const cap=$('cap');let gi=-1;for(let i=0;i<D.caps.length;i++)if(t>=D.caps[i][0][1]-0.05)gi=i;
  let show=gi>=0;if(show&&D.capEnd[gi]!==null&&t>D.capEnd[gi])show=false;
@@ -174,6 +200,11 @@ window.ready=(async()=>{D=await (await fetch('data.json')).json();
  if(D.badge)$('badge').textContent=D.badge.text;if(D.card){$('ctitle').textContent=D.card.title;$('csub').textContent=D.card.sub||'';if(!D.card.sub)$('csub').style.display='none';}
  $('ovs').innerHTML=(D.overlays||[]).map(o=>`<div class="ov" style="left:${o.x}px;top:${o.y}px;width:${o.w}px"><img src="${o.src}"></div>`).join('');
  await Promise.all([...document.querySelectorAll('.ov img')].map(im=>im.decode?im.decode().catch(()=>{}):null));
+ for(const [i,n] of (D.inserts||[]).entries()){const cw=n.w-24,ch=Math.round(cw/n.ar);
+  $('ins').insertAdjacentHTML('beforeend',(n.dl?`<div class="dl" id="dl${i}" style="top:${n.dly||220}px"><div class="row"><svg width="40" height="48" viewBox="0 0 40 48"><path d="M3 3h24l10 10v32H3z" fill="#fff" stroke="#555" stroke-width="3" stroke-linejoin="round"/><path d="M27 3v10h10" fill="none" stroke="#555" stroke-width="3" stroke-linejoin="round"/><path d="M17 36V20l11-3v15" fill="none" stroke="#29B83A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="36" r="4" fill="#29B83A"/><circle cx="25" cy="32" r="4" fill="#29B83A"/></svg><span>${n.title}</span></div><div class="pb"><i></i></div></div>`:'')+
+   `<div class="pw" id="pw${i}" style="top:${n.y}px;width:${n.w}px"><div class="tb"><svg width="30" height="36" viewBox="0 0 40 48"><path d="M3 3h24l10 10v32H3z" fill="#fff" stroke="#555" stroke-width="3" stroke-linejoin="round"/><path d="M27 3v10h10" fill="none" stroke="#555" stroke-width="3" stroke-linejoin="round"/><path d="M17 36V20l11-3v15" fill="none" stroke="#29B83A" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="14" cy="36" r="4" fill="#29B83A"/><circle cx="25" cy="32" r="4" fill="#29B83A"/></svg><span>${n.title}</span><div class="bt"><b><i style="display:block;width:16px;height:4px;background:#333;margin-top:12px"></i></b><b><i style="display:block;width:16px;height:14px;border:3px solid #333"></i></b><b><svg width="18" height="18" viewBox="0 0 18 18"><path d="M3 3l12 12M15 3L3 15" stroke="#333" stroke-width="3.2" stroke-linecap="round"/></svg></b></div></div>`+
+   `<div class="scr"><canvas width="${cw}" height="${ch}"></canvas><div class="scan"></div></div><div class="ctl"><div class="pl"></div><div class="pb"><i></i></div></div></div>`);
+  n._im=await Promise.all([...Array(n.n).keys()].map(k=>new Promise(r=>{const m=new Image();m.onload=()=>(m.decode?m.decode().catch(()=>{}):Promise.resolve()).then(()=>r(m));m.onerror=()=>{console.log('IMGERR '+n.dir);r(m)};m.src=`${n.dir}/${pad(k+1)}.jpg`;})));}
  $('tiles').innerHTML=[...Array(D.xs.length+1)].map(()=>'<div class="tile x"></div>').join('');$('zero').textContent=D.zeroText||'';$('fin').textContent=D.winText||'';
  $('slams').innerHTML=D.xs.map(()=>`<div class="slam">${XSVG}</div>`).join('');
  $('stks').innerHTML=D.stickers.map(s=>`<div class="stk" style="left:${s.x}px;top:${s.y}px">${s.e}</div>`).join('');
