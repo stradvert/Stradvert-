@@ -14,6 +14,8 @@ DNMIX={'ts':0.55,'cp':0.35,'dark':0.6}
 def rd(p):
     w=wave.open(p);return np.frombuffer(w.readframes(w.getnframes()),dtype=np.int16).astype(np.float32)/32768
 O=rd(A48);Dn=rd(ADN)[480:];n=min(len(O),len(Dn));O=O[:n];Dn=Dn[:n]   # arnndn output runs 10 ms late: line it up before blending
+if not os.environ.get('AUDIO_ONLY'):                 # start clean: a stale frame from an earlier cut would survive under a freeze
+    import shutil;shutil.rmtree('frames',ignore_errors=True)
 os.makedirs('frames',exist_ok=True)
 fi=1;voice=[];segs=[];t0=0
 for e in E:

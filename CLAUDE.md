@@ -75,6 +75,11 @@ background to somewhere that looks really bad, then put it back. No such footage
 the background locally with an open-licence image model and labelled it "Fake view" on screen. That was
 Claude's call for that one gag. Do not use generated imagery anywhere else without asking him.
 
+Clip inserts (28 Nov 2026): a guest described an old file-sharing spam recording and Ryan sent the clip and asked for it
+to go in. YouTube blocks downloads from the cloud server, so he screen recorded it. It plays as audio in a retro player
+window with a visualiser drawn from its sound, cut before the recording plugs a website (the only link is stradvert.org).
+That is a second exception to rule 4, made at his request. Ask before using anyone else's media in another edit.
+
 ## Delivery
 
 - Rendered MP4 into `video_out/` (git-ignored), named `<topic>_<style>_v<N>.mp4`, sent with the file tool.
